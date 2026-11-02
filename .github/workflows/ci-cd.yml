@@ -1,0 +1,21 @@
+name: Learn DevOps CI CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Step 1 - Code Checkout Karna
+      uses: actions/checkout@v3
+
+    - name: Step 2 - Test Message Print Karna
+      run: echo "Code Push Ho Gaya Hai! CI/CD Pipeline Shuru Ho Rahi Hai..."
+
+    - name: Step 3 - Docker Image Build Test
+      run: |
+        docker build -t my-test-app .
+        echo "Docker Image Successfully Build Ho Gayi!"
