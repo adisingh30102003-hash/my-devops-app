@@ -5,17 +5,23 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build-and-test:
+  build-and-push:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Step 1 - Code Checkout Karna
+    - name: Code Checkout
       uses: actions/checkout@v3
 
-    - name: Step 2 - Test Message Print Karna
-      run: echo "Code Push Ho Gaya Hai! CI/CD Pipeline Shuru Ho Rahi Hai..."
+    - name: Docker Login
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
-    - name: Step 3 - Docker Image Build Test
-      run: |
-        docker build -t my-test-app .
-        echo "Docker Image Successfully Build Ho Gayi!"
+    - name: Build and Push Docker Image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        push: true
+        tags: |
+          ${{ secrets.DOCKER_USERNAME }}/my-devops-app:latest
